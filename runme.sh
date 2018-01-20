@@ -7,8 +7,8 @@ function log_date() {
 }
 
 function log_access() {
-    printf "$1 > $2\r\n" >> "$log_path""/luna_$(log_date).log"
-    # printf "\r\n" >> "$log_path""/luna_$(log_date).log"
+    printf "$1 > $2\r\n" >> "$log_path""/$(log_date).log"
+    # printf "\r\n" >> "$log_path""/$(log_date).log"
 }
 
 function log_i() {
