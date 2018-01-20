@@ -33,7 +33,7 @@ for file_name in arr_txt:
             users_dict[user_id] = hour
 
     log_file.close()
-    csv_file.write(file_name + ';')
+    csv_file.write(file_name.replace('.log','') + ';')
     [csv_file.write(users_dict[key] + ';') for key in sorted(users_dict.keys())]
     csv_file.write('\n')
 
