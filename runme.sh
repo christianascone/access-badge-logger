@@ -69,8 +69,6 @@ continue
 
     user=$(echo "$logged_user" | cut -d":" -f2)
     gender_value=$(echo "$logged_user" | cut -d":" -f3 | cut -c 1)
-    echo =$user=
-    echo =$gender_value=
     if [[ $gender_value == "F" ]]; then
         gender="a"
     else
