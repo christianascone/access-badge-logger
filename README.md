@@ -1,1 +1,1 @@
-# python-access-badge-logger
+# access-badge-logger
