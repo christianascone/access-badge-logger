@@ -4,6 +4,9 @@ EXPORTS_LOG_FILE = 'exports/logs_csv.csv'
 USERS_CONF_DIRECTORY = 'Config/users.conf'
 LOGS_DIRECTORY = 'Accessi'
 
+# User Conf
+USERNAME_INDEX = 0
+
 # Record indexes
 LOG_HOUR_INDEX = 1
 LOG_USER_ID_INDEX = 3
@@ -14,7 +17,7 @@ def export_logs_in_csv():
     global users_list, csv_file
     # TODO: Replace open with 'with'
     users_file = open(USERS_CONF_DIRECTORY, 'r')
-    users_list = [user.split(':')[0] for user in users_file]
+    users_list = [user.split(':')[USERNAME_INDEX] for user in users_file]
     users_file.close()
 
     def get_log_files_list():
