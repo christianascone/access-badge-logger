@@ -50,16 +50,29 @@ def export_logs_in_csv():
             if not line.strip():
                 continue
             data = line.split(' ')
-            if len(data) > LOG_RECORD_MAX_LENGTH:
-                user_id = data[LOG_USER_ID_INDEX]
-                hour = data[LOG_HOUR_INDEX]
-                users_dict[user_id] = hour
+            read_user_hour(data, users_dict)
 
         log_file.close()
         csv_file.write(file_name.replace('.log', '') + ';')
-        [csv_file.write(users_dict[key] + ';') for key in sorted(users_dict.keys())]
+        [csv_file.write(users_dict[key] + ';') for key in sorted(users_dict.keys()) if key in users_list]
         csv_file.write('\n')
     csv_file.close()
+
+
+def read_user_hour(data, users_dict):
+    """
+    If data has right number of values, it reads
+    the user_id, the hour and finally saves it in
+    dictionary using user_id as key
+
+    :param data: Array with day data
+    :param users_dict: Dictionary with hours by user_id
+    :return:
+    """
+    if len(data) > LOG_RECORD_MAX_LENGTH:
+        user_id = data[LOG_USER_ID_INDEX]
+        hour = data[LOG_HOUR_INDEX]
+        users_dict[user_id] = hour
 
 
 if __name__ == '__main__':
