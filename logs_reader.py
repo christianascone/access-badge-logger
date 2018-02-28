@@ -12,6 +12,7 @@ LOG_RECORD_MAX_LENGTH = 3
 
 def export_logs_in_csv():
     global users_list, csv_file
+    # TODO: Replace open with 'with'
     users_file = open(USERS_CONF_DIRECTORY, 'r')
     users_list = [user.split(':')[0] for user in users_file]
     users_file.close()
@@ -24,6 +25,7 @@ def export_logs_in_csv():
     if not os.path.exists(os.path.dirname(csv_filename)):
         os.makedirs(os.path.dirname(csv_filename))
     # Write CSV
+    # TODO: Replace open with 'with'
     csv_file = open(csv_filename, 'w')
 
     def write_header_row():
@@ -39,6 +41,7 @@ def export_logs_in_csv():
     write_header_row()
     csv_file.write('\n')
     for file_name in arr_txt:
+        # TODO: Replace open with 'with'
         log_file = open(LOGS_DIRECTORY + '/' + file_name, 'r')
         users_dict = dict()
         for user in users_list:
