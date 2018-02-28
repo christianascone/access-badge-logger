@@ -4,6 +4,11 @@ EXPORTS_LOG_FILE = 'exports/logs_csv.csv'
 USERS_CONF_DIRECTORY = 'Config/users.conf'
 LOGS_DIRECTORY = 'Accessi'
 
+# Record indexes
+LOG_HOUR_INDEX = 1
+LOG_USER_ID_INDEX = 3
+LOG_RECORD_MAX_LENGTH = 3
+
 
 def export_logs_in_csv():
     global users_list, csv_file
@@ -22,7 +27,12 @@ def export_logs_in_csv():
     csv_file = open(csv_filename, 'w')
 
     def write_header_row():
-        # Empty cell
+        """
+        Write the header row with an empty cell and a cell for every user.
+        Users' cells are alphabetically sorted.
+        :return: void
+        """
+        # Empty cell for date
         csv_file.write(';')
         [csv_file.write(user_name.strip() + ';') for user_name in sorted(users_list) if user_name]
 
@@ -37,9 +47,9 @@ def export_logs_in_csv():
             if not line.strip():
                 continue
             data = line.split(' ')
-            if len(data) > 3:
-                user_id = data[3]
-                hour = data[1]
+            if len(data) > LOG_RECORD_MAX_LENGTH:
+                user_id = data[LOG_USER_ID_INDEX]
+                hour = data[LOG_HOUR_INDEX]
                 users_dict[user_id] = hour
 
         log_file.close()
