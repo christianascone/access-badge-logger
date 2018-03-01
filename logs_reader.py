@@ -32,38 +32,31 @@ def export_logs_in_csv():
         csv_file.write(';')
         [csv_file.write(user_name.strip() + ';') for user_name in sorted(users_list) if user_name]
 
-    # TODO: Replace open with 'with'
-    users_file = open(USERS_CONF_DIRECTORY, 'r')
-    users_list = [user.split(':')[USERNAME_INDEX] for user in users_file]
-    users_file.close()
+    with open(USERS_CONF_DIRECTORY, 'r') as users_file:
+        users_list = [user.split(':')[USERNAME_INDEX] for user in users_file]
 
     arr_txt = get_log_files_list()
     csv_filename = EXPORTS_LOG_FILE
     if not os.path.exists(os.path.dirname(csv_filename)):
         os.makedirs(os.path.dirname(csv_filename))
     # Write CSV
-    # TODO: Replace open with 'with'
-    csv_file = open(csv_filename, 'w')
-
-    write_header_row()
-    csv_file.write(NEW_LINE_CHAR)
-    for file_name in arr_txt:
-        # TODO: Replace open with 'with'
-        log_file = open(LOGS_DIRECTORY + '/' + file_name, 'r')
-        users_dict = dict()
-        for user in users_list:
-            users_dict[user] = ''
-        for line in log_file:
-            if not line.strip():
-                continue
-            data = line.split(' ')
-            read_user_hour(data, users_dict)
-
-        log_file.close()
-        csv_file.write(file_name.replace('.log', '') + ';')
-        [csv_file.write(users_dict[key] + ';') for key in sorted(users_dict.keys()) if key in users_list]
+    with open(csv_filename, 'w') as csv_file:
+        write_header_row()
         csv_file.write(NEW_LINE_CHAR)
-    csv_file.close()
+        for file_name in arr_txt:
+            with open(LOGS_DIRECTORY + '/' + file_name, 'r') as log_file:
+                users_dict = dict()
+                for user in users_list:
+                    users_dict[user] = ''
+                for line in log_file:
+                    if not line.strip():
+                        continue
+                    data = line.split(' ')
+                    read_user_hour(data, users_dict)
+
+            csv_file.write(file_name.replace('.log', '') + ';')
+            [csv_file.write(users_dict[key] + ';') for key in sorted(users_dict.keys()) if key in users_list]
+            csv_file.write(NEW_LINE_CHAR)
 
 
 def read_user_hour(data, users_dict):
